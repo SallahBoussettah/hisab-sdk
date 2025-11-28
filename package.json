@@ -1,6 +1,6 @@
 {
   "name": "hisab-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Official SDK for the Hisab e-invoicing API",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -13,8 +13,10 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "runkit.js"
   ],
+  "runkitExampleFilename": "runkit.js",
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
