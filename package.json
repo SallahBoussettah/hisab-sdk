@@ -1,0 +1,62 @@
+{
+  "name": "hisab-sdk",
+  "version": "0.1.0",
+  "description": "Official SDK for the Hisab e-invoicing API",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:sdk": "tsx examples/test-sdk.ts",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "hisab",
+    "invoice",
+    "e-invoicing",
+    "morocco",
+    "dgi",
+    "api",
+    "sdk",
+    "billing",
+    "facturation"
+  ],
+  "author": "Hisab <contact@hisab.ma>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SallahBoussettah/hisab-sdk"
+  },
+  "homepage": "https://hisab.ma/docs/sdk",
+  "bugs": {
+    "url": "https://github.com/SallahBoussettah/hisab-sdk/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "eslint": "^8.55.0",
+    "rimraf": "^5.0.5",
+    "tsup": "^8.0.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.0"
+  }
+}
