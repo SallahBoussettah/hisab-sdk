@@ -7,6 +7,7 @@ import { HttpClient } from './utils/request';
 import { InvoicesResource } from './resources/invoices';
 import { CustomersResource } from './resources/customers';
 import { OrganizationResource } from './resources/organization';
+import { RecurringInvoicesResource } from './resources/recurring-invoices';
 
 /**
  * Hisab API Client
@@ -45,6 +46,9 @@ export class HisabClient {
 
   /** Invoice operations */
   public readonly invoices: InvoicesResource;
+
+  /** Recurring invoice operations */
+  public readonly recurringInvoices: RecurringInvoicesResource;
 
   /** Customer operations */
   public readonly customers: CustomersResource;
@@ -94,6 +98,7 @@ export class HisabClient {
 
     // Initialize resources
     this.invoices = new InvoicesResource(this.httpClient);
+    this.recurringInvoices = new RecurringInvoicesResource(this.httpClient);
     this.customers = new CustomersResource(this.httpClient);
     this.organization = new OrganizationResource(this.httpClient);
   }

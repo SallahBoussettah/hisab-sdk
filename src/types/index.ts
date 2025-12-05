@@ -50,6 +50,21 @@ export type {
   UpdateOrganizationInput,
 } from './organization';
 
+// Recurring invoice types
+export type {
+  RecurringFrequency,
+  RecurringStatus,
+  RecurringHistoryStatus,
+  RecurringInvoiceItem,
+  RecurringInvoiceHistoryEntry,
+  RecurringInvoice,
+  CreateRecurringInvoiceInput,
+  UpdateRecurringInvoiceInput,
+  RecurringInvoiceListOptions,
+  ResumeRecurringInvoiceInput,
+  GenerateInvoiceInput,
+} from './recurring-invoices';
+
 // Webhook types
 export type {
   WebhookEventType,

@@ -46,6 +46,7 @@ export { HisabClient } from './client';
 
 // Resource classes (for advanced use cases)
 export { InvoicesResource } from './resources/invoices';
+export { RecurringInvoicesResource } from './resources/recurring-invoices';
 export { CustomersResource } from './resources/customers';
 export { OrganizationResource } from './resources/organization';
 
@@ -118,6 +119,19 @@ export type {
   Organization,
   UpdateOrganizationInput,
 
+  // Recurring invoice types
+  RecurringFrequency,
+  RecurringStatus,
+  RecurringHistoryStatus,
+  RecurringInvoiceItem,
+  RecurringInvoiceHistoryEntry,
+  RecurringInvoice,
+  CreateRecurringInvoiceInput,
+  UpdateRecurringInvoiceInput,
+  RecurringInvoiceListOptions,
+  ResumeRecurringInvoiceInput,
+  GenerateInvoiceInput,
+
   // Webhook types
   WebhookEventType,
   WebhookEvent,
@@ -147,4 +161,4 @@ export type {
 } from './types';
 
 // Version
-export const VERSION = '0.1.0';
+export const VERSION = '0.2.0';
