@@ -7,7 +7,7 @@ import { ListOptions } from './common';
 /**
  * Invoice status values
  */
-export type InvoiceStatus = 'draft' | 'finalized' | 'sent' | 'paid' | 'void';
+export type InvoiceStatus = 'draft' | 'finalized' | 'sent' | 'paid' | 'credited' | 'void';
 
 /**
  * Summary of customer information embedded in invoice
