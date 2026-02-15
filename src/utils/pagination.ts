@@ -43,6 +43,11 @@ export class PaginatedIterator<T> implements AsyncIterable<T> {
    * Implement async iterator protocol
    */
   async *[Symbol.asyncIterator](): AsyncIterator<T> {
+    // Reset state so the iterator can be reused
+    this.currentPage = this.options.page ?? 1;
+    this.itemsYielded = 0;
+    this.totalPages = null;
+
     const { maxItems } = this.options;
 
     while (true) {

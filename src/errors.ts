@@ -42,7 +42,8 @@ export class HisabError extends Error {
    */
   static fromResponse(
     status: number,
-    body: { error?: { code?: string; message?: string; details?: ErrorDetail[] } }
+    body: { error?: { code?: string; message?: string; details?: ErrorDetail[] } },
+    headers?: Headers
   ): HisabError {
     const code = body.error?.code ?? 'UNKNOWN_ERROR';
     const message = body.error?.message ?? 'An unknown error occurred';
@@ -58,8 +59,12 @@ export class HisabError extends Error {
         return new ForbiddenError(message, code, body);
       case 404:
         return new NotFoundError(message, code, body);
-      case 429:
-        return new RateLimitError(message, code, body);
+      case 429: {
+        const retryAfter = headers
+          ? parseInt(headers.get('Retry-After') ?? '60', 10)
+          : 60;
+        return new RateLimitError(message, code, body, retryAfter);
+      }
       default:
         return new HisabError(message, code, status, details, body);
     }

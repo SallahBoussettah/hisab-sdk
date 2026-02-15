@@ -130,10 +130,7 @@ const finalized = await hisab.invoices.finalize('inv_xxx');
 await hisab.invoices.markAsSent('inv_xxx');
 
 // Mark as paid
-await hisab.invoices.markAsPaid('inv_xxx', {
-  payment_date: '2025-11-28',
-  payment_method: 'bank_transfer',
-});
+await hisab.invoices.markAsPaid('inv_xxx');
 
 // Void invoice (requires reason)
 await hisab.invoices.void('inv_xxx', {
@@ -185,7 +182,7 @@ const b2bCustomer = await hisab.customers.create({
   email: 'billing@acme.com',
   phone: '+212 5 22 123456',
   address: {
-    line1: '123 Business Ave',
+    street: '123 Business Ave',
     city: 'Casablanca',
     postal_code: '20000',
     country: 'MA',
@@ -237,9 +234,50 @@ console.log(org.legal_name, org.ice);
 await hisab.organization.update({
   email: 'contact@company.ma',
   phone: '+212 5 22 123456',
-  address_line1: 'New Address',
-  city: 'Rabat',
+  address: {
+    street: 'New Address',
+    city: 'Rabat',
+  },
 });
+```
+
+### Recurring Invoices
+
+```typescript
+// List recurring invoices
+const recurring = await hisab.recurringInvoices.list({
+  page: 1,
+  per_page: 20,
+  status: 'active',
+});
+
+// Get single recurring invoice
+const schedule = await hisab.recurringInvoices.get('rec_xxx');
+
+// Create recurring invoice
+const newRecurring = await hisab.recurringInvoices.create({
+  customer_id: 'cust_xxx',
+  frequency: 'monthly',
+  start_date: '2025-01-01',
+  items: [
+    {
+      description: 'Monthly Retainer',
+      quantity: 1,
+      unit_price: 5000,
+      tax_rate: 20,
+    },
+  ],
+});
+
+// Pause/Resume
+await hisab.recurringInvoices.pause('rec_xxx');
+await hisab.recurringInvoices.resume('rec_xxx');
+
+// Generate next invoice manually
+const invoice = await hisab.recurringInvoices.generateInvoice('rec_xxx');
+
+// View generation history
+const history = await hisab.recurringInvoices.getHistory('rec_xxx');
 ```
 
 ### Webhooks
@@ -253,7 +291,8 @@ import { verifyWebhookSignature } from 'hisab-sdk';
 app.post('/webhooks/hisab', express.raw({ type: 'application/json' }), (req, res) => {
   const isValid = verifyWebhookSignature({
     payload: req.body.toString(),
-    signature: req.headers['x-hisab-signature'],
+    signature: req.headers['x-webhook-signature'],
+    timestamp: req.headers['x-webhook-timestamp'],
     secret: process.env.HISAB_WEBHOOK_SECRET,
   });
 
@@ -384,7 +423,7 @@ while (hasMore) {
     console.log(invoice.invoice_number);
   }
 
-  hasMore = page < response.meta.last_page;
+  hasMore = page < response.meta.pagination.total_pages;
   page++;
 }
 ```

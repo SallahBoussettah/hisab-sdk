@@ -33,7 +33,7 @@ async function main() {
     console.log('📋 Test 1: List Invoices');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
-    const invoices = await hisab.invoices.list({ limit: 5 });
+    const invoices = await hisab.invoices.list({ per_page: 5 });
     console.log(`Found ${invoices.data.length} invoices`);
     if (invoices.data.length > 0) {
       console.log('First invoice:', {
@@ -50,14 +50,14 @@ async function main() {
     console.log('👥 Test 2: List Customers');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
-    const customers = await hisab.customers.list({ limit: 5 });
+    const customers = await hisab.customers.list({ per_page: 5 });
     console.log(`Found ${customers.data.length} customers`);
     if (customers.data.length > 0) {
       console.log('First customer:', {
         id: customers.data[0].id,
         name: customers.data[0].name,
         email: customers.data[0].email,
-        type: customers.data[0].customer_type,
+        type: customers.data[0].type,
       });
     }
     console.log('✅ List customers successful!\n');
@@ -72,7 +72,7 @@ async function main() {
       id: org.id,
       name: org.legal_name,
       ice: org.ice,
-      city: org.city,
+      city: org.address?.city,
     });
     console.log('✅ Get organization successful!\n');
 
@@ -87,7 +87,7 @@ async function main() {
       type: 'b2c',
       phone: '+212600000000',
       address: {
-        line1: '123 Test Street',
+        street: '123 Test Street',
         city: 'Casablanca',
         country: 'MA',
       },

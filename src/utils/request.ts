@@ -86,7 +86,7 @@ export class HttpClient {
         // Handle non-2xx responses
         if (!response.ok) {
           const errorBody = await this.safeParseJson(response);
-          const error = HisabError.fromResponse(response.status, errorBody);
+          const error = HisabError.fromResponse(response.status, errorBody, response.headers);
 
           // Don't retry client errors (except rate limits)
           if (response.status >= 400 && response.status < 500 && response.status !== 429) {
@@ -95,8 +95,7 @@ export class HttpClient {
 
           // Handle rate limiting
           if (error instanceof RateLimitError) {
-            const retryAfter = parseInt(response.headers.get('Retry-After') ?? '60', 10);
-            (error as RateLimitError & { retryAfter: number }).retryAfter = retryAfter;
+            const retryAfter = error.retryAfter;
 
             // If we have retries left, wait and retry
             if (attempt < maxAttempts) {
